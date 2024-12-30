@@ -1,0 +1,14 @@
+{
+    "name": "safiy/oumaima_aitsaid_project",
+    "description": "A PHP project",
+    "type": "none",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "authors": [
+        {
+            "name": "OUMAIMA-AIT-SAID",
+            "email": "oumaimaaitsaid.dev@gmail.com"
+        }
+    ]
+}
