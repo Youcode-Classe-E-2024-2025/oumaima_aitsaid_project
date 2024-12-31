@@ -49,6 +49,22 @@ class User {
         return false;
     }
 
-    
+    public function validate(){
+        $errors = [];
+        if(empty($this->name)){
+            $errors[] = "Username is required";
+        }
+        if(empty($this->email)){
+            $errors[] = "Email is required";
+        } elseif(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
+            $errors[] = "Invalid email format";
+        }
+        if(empty($this->password)){
+            $errors[] = "Password is required";
+        } elseif(strlen($this->password) < 6){
+            $errors[] = "Password must be at least 6 characters";
+        }
+        return $errors;
+    }
 }
 ?>
