@@ -122,7 +122,22 @@ public function createProject() {
                 exit();
             }
         }
-    }}
+    }
+
+    public function deleteProject() {
+        $project_id = $_GET['id'] ?? '';
+        $this->project->id = $project_id;
+        if ($this->project->deleteProject()) {
+            header("Location: index.php?action=dashboard");
+            exit();
+        } else {
+            $error = "Failed to delete project";
+            header("Location: index.php?action=dashboard&error=" . urlencode($error));
+            exit();
+        }
+    }
+
+}
 
 
 ?>
