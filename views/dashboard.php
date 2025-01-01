@@ -9,6 +9,11 @@
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
         <h1 class="text-3xl font-bold mb-6">Welcome, <?php echo htmlspecialchars($userName); ?>!</h1>
+        <div class="mb-6">
+            <a href="index.php?action=create_project" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                Create New Project
+            </a>
+        </div>
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <table class="min-w-full">
                 <thead>
