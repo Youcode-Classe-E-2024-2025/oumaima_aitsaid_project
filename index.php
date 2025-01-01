@@ -30,7 +30,10 @@ switch($action){
             case 'create_project':
         $auth->createProject();
         break;
-      
+        case 'update_project':
+            $auth->updateProject();
+            break;
+        
         default:
     $auth->login();
 
