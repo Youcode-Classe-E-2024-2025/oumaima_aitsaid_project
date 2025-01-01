@@ -3,11 +3,13 @@
 class AuthController{
 private $db;
 private $user;
+private $project;
 
 public function __construct(){
     $database =new Database();
     $this->db =$database->getconnection();
     $this->user=new User($this->db);
+    $this->project=new Project($this->db);
 }
 
 public function register(){
@@ -73,7 +75,25 @@ public function dashboard() {
     include 'views/dashboard.php';
 }
 
-}
+public function createProject() {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $this->project->name = $_POST['name'] ?? '';
+        $this->project->description = $_POST['description'] ?? '';
+        $this->project->date_commence = $_POST['date_commence'] ?? '';
+        $this->project->date_fin = $_POST['date_fin'] ?? '';
+        $this->project->status = $_POST['status'] ?? '';
+
+        if ($this->project->createProject()) {
+            header("Location: index.php?action=dashboard");
+            exit();
+        } else {
+            $error = "Failed to create project";
+            include 'views/create_project.php';
+        }
+    } else {
+        include 'views/create_project.php';
+    }
+}}
 
 
 ?>
