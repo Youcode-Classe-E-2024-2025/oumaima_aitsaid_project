@@ -41,6 +41,7 @@ $error ="remplire les champs svp";
 include 'views/login.php';
 return;
 }
+
 if($this->user->login($email, $password)){
       $_SESSION['user_id'] = $this->user->getId();
       $_SESSION['user_name'] = $this->user->getName();
