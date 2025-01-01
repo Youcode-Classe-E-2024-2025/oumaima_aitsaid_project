@@ -93,7 +93,8 @@ public function createProject() {
     } else {
         include 'views/create_project.php';
     }
-}}
+}
+}
 
 
 ?>
