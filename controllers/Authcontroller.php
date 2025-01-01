@@ -31,29 +31,20 @@ public function register(){
         include 'views/register.php';
     }
 }
-
 public function login(){
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-
 $email=$_POST['email'] ?? '';
 $password =$_POST['password'] ?? '';
 
-if(empty($email) || empty($password))
+if(empty($email) || empty($password)){
 $error ="remplire les champs svp";
-
 include 'views/login.php';
 return;
-
-
-$stmt =$this->db->prepare("SELECT * FROM users WHERE email= :email");
-$stmt ->bindParam(':email',$email);
-$stmt->execute();
-$user=$stmt->fetch(PDO::FETCH_ASSOC);
-
-if($user && password_verify($password,$user['password'])){
-      $_SESSION['user_id'] =$user['id'];
-      $_SESSION['user_name'] =$user['name'];
-      header("location:index.php?action:dashboard");
+}
+if($this->user->login($email, $password)){
+      $_SESSION['user_id'] = $this->user->getId();
+      $_SESSION['user_name'] = $this->user->getName();
+      header("Location: index.php?action=dashboard");
       exit();
 
 
@@ -69,6 +60,15 @@ else {
 }
 
 
+}
+
+public function dashboard() {
+    if(!isset($_SESSION['user_id'])) {
+        header("Location: index.php?action=login");
+        exit();
+    }
+    $userName = $_SESSION['user_name'];
+    include 'views/dashboard.php';
 }
 
 }

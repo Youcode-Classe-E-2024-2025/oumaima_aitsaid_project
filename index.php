@@ -19,16 +19,10 @@ switch($action){
         break;
     
         case 'dashboard':
-            if (isset($_SESSION['user_id'])) {
-                echo "Welcome, " . htmlspecialchars($_SESSION['user_name']) . "!";
-                header("Location: index.php?action=login");
-            } else {
-                
-                header("Location: views/dashboard.php");
-                exit();
-            }
+            $auth->dashboard();
             break;
-    default:
+      
+        default:
     $auth->login();
 
         break;
