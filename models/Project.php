@@ -77,4 +77,43 @@ $this->name = htmlspecialchars(strip_tags($this->name));
             return false;
         }
     
+        public function updateProject() {
+            $query = "UPDATE " . $this->table_name . " 
+                      SET name = :name, description = :description, date_commence = :date_commence, 
+                          date_fin = :date_fin, status = :status, is_public = :is_public 
+                      WHERE id = :id";
+    
+            $stmt = $this->conn->prepare($query);
+    
+            $this->name = htmlspecialchars(strip_tags($this->name));
+            $this->description = htmlspecialchars(strip_tags($this->description));
+            $this->date_commence = htmlspecialchars(strip_tags($this->date_commence));
+            $this->date_fin = htmlspecialchars(strip_tags($this->date_fin));
+            $this->status = $this->validateStatus($this->status);
+            $this->is_public = $this->is_public ? 1 : 0;
+    
+            $stmt->bindParam(":name", $this->name);
+            $stmt->bindParam(":description", $this->description);
+            $stmt->bindParam(":date_commence", $this->date_commence);
+            $stmt->bindParam(":date_fin", $this->date_fin);
+            $stmt->bindParam(":status", $this->status);
+            $stmt->bindParam(":is_public", $this->is_public);
+            $stmt->bindParam(":id", $this->id);
+    
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        }
+        public function deleteProject() {
+            $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
+            $stmt = $this->conn->prepare($query);
+    
+            $stmt->bindParam(":id", $this->id);
+    
+            if ($stmt->execute()) {
+                return true;
+            }
+            return false;
+        }
     }
