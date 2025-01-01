@@ -14,7 +14,7 @@ class AdminController {
     }
 
     public function dashboard() {
-        
+        $users =$this->user->getAllProjects();
         include 'views/dashboard.php';
     }
 }

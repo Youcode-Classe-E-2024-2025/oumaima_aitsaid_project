@@ -64,11 +64,12 @@ else {
 }
 
 public function dashboard() {
-    if(!isset($_SESSION['user_id'])) {
+    if (!isset($_SESSION['user_id'])) {
         header("Location: index.php?action=login");
         exit();
     }
     $userName = $_SESSION['user_name'];
+    $projects = $this->project->getAllProjects();
     include 'views/dashboard.php';
 }
 
