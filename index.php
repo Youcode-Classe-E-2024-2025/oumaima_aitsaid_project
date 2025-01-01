@@ -21,7 +21,11 @@ switch($action){
         case 'dashboard':
             $auth->dashboard();
             break;
-      
+        case 'logout':
+            session_destroy();
+            header("Location:index.php?action=login");
+            exit();
+            break;
         default:
     $auth->login();
 
