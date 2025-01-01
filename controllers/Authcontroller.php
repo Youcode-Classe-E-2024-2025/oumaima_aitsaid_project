@@ -94,6 +94,35 @@ public function createProject() {
         include 'views/create_project.php';
     }
 }
+public function updateProject() {
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $this->project->id = $_POST['id'] ?? '';
+        $this->project->name = $_POST['name'] ?? '';
+        $this->project->description = $_POST['description'] ?? '';
+        $this->project->date_commence = $_POST['date_commence'] ?? '';
+        $this->project->date_fin = $_POST['date_fin'] ?? '';
+        $this->project->status = $_POST['status'] ?? '';
+        $this->project->is_public = isset($_POST['is_public']) ? 1 : 0;
+
+        if ($this->project->updateProject()) {
+            header("Location: index.php?action=dashboard" );
+            exit();
+        } else {
+            $error = "Failed to update project";
+            $project = $this->project->getProjectById($this->project->id);
+            include 'views/update_project.php';
+        }
+    } else {
+        $project_id = $_GET['id'] ?? '';
+        $project = $this->project->getProjectById($project_id);
+        if ($project) {
+            include 'views/update_project.php';
+        } else {
+            header("Location: index.php?action=dashboard");
+            exit();
+        }
+    }
+}
 }
 
 
