@@ -135,7 +135,18 @@ class Task {
         return false;
     }
 
-    
+    public function getTasksByUser($user_id) {
+        $query = "SELECT t.* FROM " . $this->table_name . " t
+                  JOIN assign_task at ON t.id = at.task_id
+                  WHERE at.user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $user_id);
+        
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return false;
+    }
 
    
 
