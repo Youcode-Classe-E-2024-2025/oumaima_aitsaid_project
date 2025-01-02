@@ -58,7 +58,10 @@ class Task {
         return false;
     }
 
-   
+    private function validateStatus($status) {
+        $validStatuses = ['toDo', 'inProgress', 'completed'];
+        return in_array($status, $validStatuses) ? $status : 'toDo';
+    }
 
    
 
