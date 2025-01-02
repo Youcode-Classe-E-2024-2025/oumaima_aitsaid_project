@@ -46,9 +46,16 @@
                             <span><?php echo htmlspecialchars($project['date_fin']); ?></span>
                         </td>
                         <td class="py-3 px-6 text-center">
-                            <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
-                                <?php echo htmlspecialchars($project['status']); ?>
-                            </span>
+                            <?php if (  htmlspecialchars($project['status'] ) == 'not_started' ) { ?>
+                            <span class="bg-gray-200 text-gray-600 py-1 px-3 rounded-full text-xs">
+                                not_started
+                            </span><?php } elseif(  htmlspecialchars($project['status'] ) == 'in_progress' ) {?>
+                                <span class="bg-blue-200 text-blue-600 py-1 px-3 rounded-full text-xs">
+                                in_Progress
+                            </span><?php }  elseif (  htmlspecialchars($project['status'] ) == 'completed' ) { ?>
+                            <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">
+                                Completed
+                            </span><?php } ?>
                         </td>
                         <td class="py-3 px-6 text-center">
                             <div class="flex item-center justify-center">

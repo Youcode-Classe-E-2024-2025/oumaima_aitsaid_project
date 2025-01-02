@@ -29,9 +29,9 @@
                     Status
                 </label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" name="status">
-                    <option value="Not Started">Not Started</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Completed">Completed</option>
+                    <option value="toDo">to Do</option>
+                    <option value="inProgress">In Progress</option>
+                    <option value="completed">Completed</option>
                 </select>
             </div>
             
