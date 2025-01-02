@@ -87,6 +87,7 @@ class User {
             }
         }
         return false;
-    }
-}
+    }}
+
+
 ?>

@@ -17,7 +17,7 @@ class Project {
     }
 
     public function getAllProjects() {
-        $query = "SELECT * FROM " . $this->table_name;
+        $query = "SELECT * FROM " . $this->table_name;                                              
         $stmt = $this->conn->prepare($query);
         if ($stmt->execute()) {
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -38,7 +38,7 @@ $this->name = htmlspecialchars(strip_tags($this->name));
         $this->date_fin = htmlspecialchars(strip_tags($this->date_fin));
         $this->status = $this->validateStatus($this->status);
         $this->is_public = isset($this->is_public) ? 1 : 0;
-        $this->id_user = 2;
+        $this->id_user= $this->id_user;
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":description", $this->description);
         $stmt->bindParam(":date_commence", $this->date_commence);
@@ -64,7 +64,7 @@ $this->name = htmlspecialchars(strip_tags($this->name));
         if (in_array($status, $validStatuses)) {
             return $status;
         }
-        return 'not_started';}
+        return 'false';}
     
         public function getProjectById($id) {
             $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";

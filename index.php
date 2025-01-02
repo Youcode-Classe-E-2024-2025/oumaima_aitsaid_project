@@ -36,6 +36,9 @@ switch($action){
         case 'delete_project':
             $auth->deleteProject();
             break;
+            case 'project_details':
+                $auth->projectDetails();
+                break;
         default:
     $auth->login();
 

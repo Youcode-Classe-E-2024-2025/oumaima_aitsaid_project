@@ -4,12 +4,18 @@ class AuthController{
 private $db;
 private $user;
 private $project;
+private $task;
+private $category;
+private $tag;
 
 public function __construct(){
     $database =new Database();
     $this->db =$database->getconnection();
     $this->user=new User($this->db);
     $this->project=new Project($this->db);
+    $this->task = new Task($this->db);
+    $this->category = new Category($this->db);
+    $this->tag = new Tag($this->db);
 }
 
 public function register(){
@@ -82,6 +88,8 @@ public function createProject() {
         $this->project->date_commence = $_POST['date_commence'] ?? '';
         $this->project->date_fin = $_POST['date_fin'] ?? '';
         $this->project->status = $_POST['status'] ?? '';
+        $this->project->is_public = isset($_POST['is_public']) ? 1 : 0;
+        $this->project->id_user = $_SESSION['user_id'] ?? null;
 
         if ($this->project->createProject()) {
             header("Location: index.php?action=dashboard");
@@ -136,7 +144,6 @@ public function createProject() {
             exit();
         }
     }
-
 }
 
 

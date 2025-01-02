@@ -40,9 +40,9 @@
                     Status
                 </label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" name="status">
-                    <option value="Not Started" <?php echo $project['status'] == 'Not Started' ? 'selected' : ''; ?>>Not Started</option>
-                    <option value="In Progress" <?php echo $project['status'] == 'In Progress' ? 'selected' : ''; ?>>In Progress</option>
-                    <option value="Completed" <?php echo $project['status'] == 'Completed' ? 'selected' : ''; ?>>Completed</option>
+                    <option value="not_started" <?php echo $project['status'] == 'not_Started' ? 'selected' : ''; ?>>Not Started</option>
+                    <option value="in_progress" <?php echo $project['status'] == 'in_progress' ? 'selected' : ''; ?>>In Progress</option>
+                    <option value="completed" <?php echo $project['status'] == 'completed' ? 'selected' : ''; ?>>Completed</option>
                 </select>
             </div>
             <div class="flex items-center justify-between">
