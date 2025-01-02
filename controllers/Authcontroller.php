@@ -208,7 +208,10 @@ public function createProject() {
                         $this->task->removeTag($this->task->id, $tag['id']);
                     }
                 }
-              
+                foreach ($new_tags as $tag_id) {
+                    $this->task->addTag($this->task->id, $tag_id);
+                }
+
                 header("Location: index.php?action=project_details&id=" . $_POST['project_id']);
                 exit();
             } else {
@@ -216,6 +219,8 @@ public function createProject() {
                 $task = $this->task->getTaskById($this->task->id);
                 $project = $this->project->getProjectById($task['project_id']);
                 $categories = $this->category->getAllCategories();
+                $tags = $this->tag->getAllTags();
+                $task_tags = $this->task->getTaskTags($this->task->id);
                 include 'views/update_task.php';
             }
         } else {
@@ -224,6 +229,8 @@ public function createProject() {
             if ($task) {
                 $project = $this->project->getProjectById($task['project_id']);
                 $categories = $this->category->getAllCategories();
+                $tags = $this->tag->getAllTags();
+                $task_tags = $this->task->getTaskTags($task_id);
                 include 'views/update_task.php';
             } else {
                 header("Location: index.php?action=dashboard");
@@ -258,6 +265,65 @@ public function createProject() {
         }
     }
 
+    public function createCategory() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $this->category->name = $_POST['name'] ?? '';
+            $this->category->description = $_POST['description'] ?? '';
+
+            if ($this->category->createCategory()) {
+                header("Location: index.php?action=manage_categories");
+                exit();
+            } else {
+                echo "Failed to create category";
+                include '/create_category.php';
+            }
+        } else {
+            include 'views/create_category.php';
+            echo "Failed to create category";
+        }
+    }
+
+    public function manageCategories() {
+        $categories = $this->category->getAllCategories();
+        include 'views/manage_categories.php';
+    }
+
+    public function createTag() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $this->tag->name = $_POST['name'] ?? '';
+
+            if ($this->tag->createTag()) {
+                header("Location: index.php?action=manage_tags");
+                exit();
+            } else {
+                $error = "Failed to create tag";
+                include 'views/create_tag.php';
+            }
+        } else {
+            include 'views/create_tag.php';
+        }
+    }
+
+    public function manageTags() {
+        $tags = $this->tag->getAllTags();
+        include 'views/manage_tags.php';
+    }
+
+    public function viewPublicProjects() {
+        $projects = $this->project->getPublicProjects();
+        include 'views/public_projects.php';
+    }
+
+    public function userDashboard() {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit();
+        }
+        $user_id = $_SESSION['user_id'];
+        $user_projects = $this->project->getUserProjects($user_id);
+        $user_tasks = $this->task->getTasksByUser($user_id);
+        include 'views/user_dashboard.php';
+    }
 
 }
 
