@@ -124,7 +124,16 @@ class Task {
         return false;
     }
 
-    
+    public function getTasksByProject($project_id) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE project_id = :project_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":project_id", $project_id);
+        
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return false;
+    }
 
     
 
