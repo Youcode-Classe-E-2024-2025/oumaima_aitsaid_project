@@ -150,7 +150,17 @@ public function createProject() {
 
    
 
-   
+    public function projectDetails() {
+        $project_id = $_GET['id'] ?? '';
+        $project = $this->project->getProjectById($project_id);
+        if ($project) {
+            $tasks = $this->task->getTasksByProject($project_id);
+            include 'views/project_details.php';
+        } else {
+            header("Location: index.php?action=dashboard");
+            exit();
+        }
+    }
 
 
 }
