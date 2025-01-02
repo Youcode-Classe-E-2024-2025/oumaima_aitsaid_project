@@ -4,6 +4,9 @@ require_once 'config/Database.php';
 require_once 'controllers/Authcontroller.php';
 require_once 'models/User.php';
 require_once 'models/Project.php';
+require_once 'models/Task.php';
+require_once 'models/Category.php';
+require_once 'models/Tag.php';
 
 $auth = new AuthController();
 
@@ -39,6 +42,8 @@ switch($action){
             case 'project_details':
                 $auth->projectDetails();
                 break;
+          
+        
         default:
     $auth->login();
 
