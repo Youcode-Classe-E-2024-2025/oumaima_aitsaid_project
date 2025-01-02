@@ -126,6 +126,16 @@ $this->name = htmlspecialchars(strip_tags($this->name));
             return false;
         }
     
-  
+        public function getUserProjects($user_id) {
+            $query = "SELECT p.* FROM " . $this->table_name . " p
+                      JOIN project_members pm ON p.id = pm.project_id
+                      WHERE pm.user_id = :user_id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(":user_id", $user_id);
+            if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            return false;
+        }
     
     }
