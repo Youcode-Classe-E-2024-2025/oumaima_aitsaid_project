@@ -113,7 +113,7 @@ public function createProject() {
             $this->project->is_public = isset($_POST['is_public']) ? 1 : 0;
 
             if ($this->project->updateProject()) {
-                header("Location: index.php?action=project_details&id=" . $this->project->id);
+                header("Location: index.php?action=dashboard&id=" . $this->project->id);
                 exit();
             } else {
                 $error = "Failed to update project";

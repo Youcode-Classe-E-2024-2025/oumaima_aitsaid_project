@@ -157,8 +157,44 @@ class Task {
         return $stmt->execute();
     }
 
-   
+    public function unassignTask($task_id, $user_id) {
+        $query = "DELETE FROM assign_task WHERE task_id = :task_id AND user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":task_id", $task_id);
+        $stmt->bindParam(":user_id", $user_id);
+        
+        return $stmt->execute();
+    }
 
-    
+    public function addTag($task_id, $tag_id) {
+        $query = "INSERT INTO task_tags (task_id, tag_id) VALUES (:task_id, :tag_id)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":task_id", $task_id);
+        $stmt->bindParam(":tag_id", $tag_id);
+        
+        return $stmt->execute();
+    }
+
+    public function removeTag($task_id, $tag_id) {
+        $query = "DELETE FROM task_tags WHERE task_id = :task_id AND tag_id = :tag_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":task_id", $task_id);
+        $stmt->bindParam(":tag_id", $tag_id);
+        
+        return $stmt->execute();
+    }
+
+    public function getTaskTags($task_id) {
+        $query = "SELECT t.* FROM tags t
+                  JOIN task_tags tt ON t.id = tt.tag_id
+                  WHERE tt.task_id = :task_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":task_id", $task_id);
+        
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return false;
+    }
 }
 

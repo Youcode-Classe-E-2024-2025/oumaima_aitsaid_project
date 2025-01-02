@@ -27,6 +27,7 @@
                         <th class="py-3 px-6 text-left">Task Title</th>
                         <th class="py-3 px-6 text-left">Description</th>
                         <th class="py-3 px-6 text-center">Status</th>
+                        <th class="py-3 px-6 text-center">Priorité</th>
                         <th class="py-3 px-6 text-center">Category</th>
                         <th class="py-3 px-6 text-center">Due Date</th>
                         <th class="py-3 px-6 text-center">Actions</th>
@@ -48,6 +49,10 @@
                         <td class="py-3 px-6 text-center">
                             <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
                                 <?php echo htmlspecialchars($task['status']); ?>
+                            </span>
+                        </td><td class="py-3 px-6 text-center">
+                            <span class="bg-purple-200 text-purple-600 py-1 px-3 rounded-full text-xs">
+                                <?php echo htmlspecialchars($task['priority']); ?>
                             </span>
                         </td>
                         <td class="py-3 px-6 text-center">
