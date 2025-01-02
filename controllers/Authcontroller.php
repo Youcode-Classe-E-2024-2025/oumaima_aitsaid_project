@@ -232,7 +232,19 @@ public function createProject() {
         }
     }
 
-   
+    public function deleteTask() {
+        $task_id = $_GET['id'] ?? '';
+        $this->task->id = $task_id;
+        $task = $this->task->getTaskById($task_id);
+        if ($this->task->deleteTask()) {
+            header("Location: index.php?action=project_details&id=" . $task['project_id']);
+            exit();
+        } else {
+            $error = "Failed to delete task";
+            header("Location: index.php?action=project_details&id=" . $task['project_id'] . "&error=" . urlencode($error));
+            exit();
+        }
+    }
 
     public function projectDetails() {
         $project_id = $_GET['id'] ?? '';
