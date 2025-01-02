@@ -116,4 +116,16 @@ $this->name = htmlspecialchars(strip_tags($this->name));
             }
             return false;
         }
+        
+        public function getPublicProjects() {
+            $query = "SELECT * FROM " . $this->table_name . " WHERE is_public = 1";
+            $stmt = $this->conn->prepare($query);
+            if ($stmt->execute()) {
+                return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            }
+            return false;
+        }
+    
+  
+    
     }
