@@ -26,7 +26,15 @@ class Tag {
         return false;
     }
 
-   
+    public function getAllTags() {
+        $query = "SELECT * FROM " . $this->table_name;
+        $stmt = $this->conn->prepare($query);
+        
+        if ($stmt->execute()) {
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+        return false;
+    }
 
     
 
