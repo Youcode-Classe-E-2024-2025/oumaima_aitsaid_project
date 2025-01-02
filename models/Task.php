@@ -63,7 +63,11 @@ class Task {
         return in_array($status, $validStatuses) ? $status : 'toDo';
     }
 
-   
+    private function validatePriority($priority) {
+        $validPriorities = ['low', 'medium', 'high'];
+        return in_array($priority, $validPriorities) ? $priority : 'medium';
+    }
+    
 
     
 
