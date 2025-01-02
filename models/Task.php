@@ -148,7 +148,14 @@ class Task {
         return false;
     }
 
-   
+    public function assignTask($task_id, $user_id) {
+        $query = "INSERT INTO assign_task (task_id, user_id) VALUES (:task_id, :user_id)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":task_id", $task_id);
+        $stmt->bindParam(":user_id", $user_id);
+        
+        return $stmt->execute();
+    }
 
     
 
