@@ -144,7 +144,50 @@ public function createProject() {
             exit();
         }
     }
-   
+    public function createTask() {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            $this->task->title = $_POST['title'] ?? '';
+            $this->task->description = $_POST['description'] ?? '';
+            $this->task->status = $_POST['status'] ?? 'toDo';
+            $this->task->priority = $_POST['priority'] ?? 'medium';
+            $this->task->fin_date = $_POST['fin_date'] ? $_POST['fin_date'] : null;
+            $this->task->category_id = $_POST['category_id'] ?? null;
+            $this->task->project_id = $_POST['project_id'] ?? '';
+            $this->task->assigned_to = $_POST['assigned_to'] ?? null;
+            $this->task->created_by = $_SESSION['user_id'] ?? null;
+
+            $task_id = $this->task->createTask();
+            if ($task_id) {
+                if (isset($_POST['tags']) && is_array($_POST['tags'])) {
+                    foreach ($_POST['tags'] as $tag_id) {
+                        $this->task->addTag($task_id, $tag_id);
+                    }
+                }
+                header("Location: index.php?action=project_details&id=" . $this->task->project_id);
+                exit();
+            } else {
+                $error = "Failed to create task";
+                $project = $this->project->getProjectById($this->task->project_id);
+                $categories = $this->category->getAllCategories();
+                $tags = $this->tag->getAllTags();
+                $users= $this->user->getAllUsers();
+                
+                include 'views/create_task.php';
+            }
+        } else {
+            $project_id = $_GET['project_id'] ?? '';
+            $project = $this->project->getProjectById($project_id);
+            $categories = $this->category->getAllCategories();
+            $users= $this->user->getAllUsers();
+            $tags = $this->tag->getAllTags();
+            if ($project) {
+                include 'views/create_task.php';
+            } else {
+                header("Location: index.php?action=dashboard");
+                exit();
+            }
+        }
+    }
 
    
 
