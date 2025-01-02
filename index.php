@@ -42,7 +42,14 @@ switch($action){
             case 'project_details':
                 $auth->projectDetails();
                 break;
-          
+            case 'create_task':
+                $auth->createTask();
+                break;
+            case 'update_task':
+                $auth->updateTask();
+                break;
+            case 'delete_task':
+                $auth->deleteTask();
         
         default:
     $auth->login();
