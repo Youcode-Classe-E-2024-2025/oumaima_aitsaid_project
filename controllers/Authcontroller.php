@@ -208,10 +208,7 @@ public function createProject() {
                         $this->task->removeTag($this->task->id, $tag['id']);
                     }
                 }
-                foreach ($new_tags as $tag_id) {
-                    $this->task->addTag($this->task->id, $tag_id);
-                }
-
+              
                 header("Location: index.php?action=project_details&id=" . $_POST['project_id']);
                 exit();
             } else {
@@ -219,8 +216,6 @@ public function createProject() {
                 $task = $this->task->getTaskById($this->task->id);
                 $project = $this->project->getProjectById($task['project_id']);
                 $categories = $this->category->getAllCategories();
-                $tags = $this->tag->getAllTags();
-                $task_tags = $this->task->getTaskTags($this->task->id);
                 include 'views/update_task.php';
             }
         } else {
@@ -229,8 +224,6 @@ public function createProject() {
             if ($task) {
                 $project = $this->project->getProjectById($task['project_id']);
                 $categories = $this->category->getAllCategories();
-                $tags = $this->tag->getAllTags();
-                $task_tags = $this->task->getTaskTags($task_id);
                 include 'views/update_task.php';
             } else {
                 header("Location: index.php?action=dashboard");
