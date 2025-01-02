@@ -106,7 +106,27 @@ class User {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-  
+    public function updateUser() {
+        $query = "UPDATE " . $this->table_name . " SET name = :name, email = :email, role = :role WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->email = htmlspecialchars(strip_tags($this->email));
+        $this->role = htmlspecialchars(strip_tags($this->role));
+
+        $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":email", $this->email);
+        $stmt->bindParam(":role", $this->role);
+        $stmt->bindParam(":id", $this->id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
+
+   
 }
 
 
