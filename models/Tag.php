@@ -47,7 +47,21 @@ class Tag {
         return false;
     }
 
-    
+    public function updateTag() {
+        $query = "UPDATE " . $this->table_name . " SET name = :name WHERE id = :id";
+
+        $stmt = $this->conn->prepare($query);
+
+        $this->name = htmlspecialchars(strip_tags($this->name));
+
+        $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":id", $this->id);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
+    }
 
     
 }
