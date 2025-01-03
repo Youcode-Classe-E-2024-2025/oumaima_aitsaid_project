@@ -27,10 +27,7 @@ switch($action){
         break;
     
         case 'dashboard':
-            if( $_SESSION['role'] !== 'admin') {
-                header("Location: index.php?action=login");
-                exit();
-            }
+           
             $auth->dashboard();
             break;
         case 'logout':
