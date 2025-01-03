@@ -3,7 +3,6 @@
 class Tag {
     private $conn;
     private $table_name = "tags";
-
     public $id;
     public $name;
 

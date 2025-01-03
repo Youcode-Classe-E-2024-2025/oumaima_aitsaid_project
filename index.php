@@ -2,6 +2,8 @@
 session_start();
 require_once 'config/Database.php';
 require_once 'controllers/Authcontroller.php';
+require_once 'controllers/Projectcontroller.php';
+require_once 'controllers/Taskcontroller.php';
 require_once 'models/User.php';
 require_once 'models/Project.php';
 require_once 'models/Task.php';
@@ -9,8 +11,10 @@ require_once 'models/Category.php';
 require_once 'models/Tag.php';
 
 $auth = new AuthController();
+$proj =new ProjectController();
+$task =new TaskController();
 
-$action = $_GET['action'] ?? 'login';
+$action = $_GET['action'] ?? 'public_projects';
 
 switch($action){
 
@@ -23,6 +27,10 @@ switch($action){
         break;
     
         case 'dashboard':
+            if( $_SESSION['role'] !== 'admin') {
+                header("Location: index.php?action=login");
+                exit();
+            }
             $auth->dashboard();
             break;
         case 'logout':
@@ -31,25 +39,29 @@ switch($action){
             exit();
             break;
             case 'create_project':
-        $auth->createProject();
+        $proj->createProject();
         break;
           case 'update_project':
-        $auth->updateProject();
+        $proj->updateProject();
         break;
         case 'delete_project':
-            $auth->deleteProject();
+            $proj->deleteProject();
             break;
             case 'project_details':
-                $auth->projectDetails();
+                $proj->projectDetails();
                 break;
             case 'create_task':
-                $auth->createTask();
+                $task->createTask();
                 break;
             case 'update_task':
-                $auth->updateTask();
+                $task->updateTask();
                 break;
             case 'delete_task':
-                $auth->deleteTask();
+                $task->deleteTask();
+         case 'public_projects':
+                $proj->viewPublicProjects();
+               
+                break;
         
         default:
     $auth->login();

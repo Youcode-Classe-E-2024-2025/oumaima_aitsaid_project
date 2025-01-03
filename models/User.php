@@ -27,6 +27,9 @@ class User {
     public function setRole($role){
         $this->role = $role ?? 'team_member';
     }
+    public function getRole(){
+        return $this->role ;
+    }
     public function getId() {
         return $this->id;
     }

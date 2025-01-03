@@ -117,13 +117,12 @@ $this->name = htmlspecialchars(strip_tags($this->name));
             return false;
         }
         
-        public function getPublicProjects() {
+        public function readPublic() {
             $query = "SELECT * FROM " . $this->table_name . " WHERE is_public = 1";
             $stmt = $this->conn->prepare($query);
-            if ($stmt->execute()) {
-                return $stmt->fetchAll(PDO::FETCH_ASSOC);
-            }
-            return false;
+            $stmt->execute();
+            
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
     
         public function getUserProjects($user_id) {

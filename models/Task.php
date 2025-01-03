@@ -67,7 +67,6 @@ class Task {
         $validPriorities = ['low', 'medium', 'high'];
         return in_array($priority, $validPriorities) ? $priority : 'medium';
     }
-    
 
     public function getTaskById($id) {
         $query = "SELECT * FROM " . $this->table_name . " WHERE id = :id";
