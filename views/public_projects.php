@@ -24,7 +24,13 @@
                                 <p class="text-gray-500"><strong>Status:</strong> <?= htmlspecialchars($project['status']) ?></p>
                             </div>
                         </div>
-                       
+                        <div class="bg-gray-50 px-6 py-4">
+                            <button 
+                                class="text-blue-600 hover:underline font-medium view-details-btn"
+                                onclick="showRegisterPrompt('<?= htmlspecialchars($project['name']) ?>')">
+                                View Details
+                            </button>
+                        </div>
                     </div>
                 <?php endforeach; ?>
             <?php endif; ?>
