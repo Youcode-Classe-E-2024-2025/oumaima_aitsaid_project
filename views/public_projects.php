@@ -12,7 +12,7 @@
     <div class="container mx-auto mt-6 px-4">
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <?php if (empty($projects)): ?>
-                <p class="text-gray-500 text-center col-span-full">No public projects .</p>
+                <p class="text-gray-500 text-center col-span-full">No public projects available at the moment.</p>
             <?php else: ?>
                 <?php foreach ($projects as $project): ?>
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -39,14 +39,14 @@
     </div>
     <footer class="bg-gray-800 text-white mt-12 py-4">
         <div class="container mx-auto text-center">
-            <p>&copy; <?= date('Y') ?> CTO. All rights reserved.</p>
+            <p>&copy; <?= date('Y') ?> Your Website Name. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
         function showRegisterPrompt(projectName) {
             Swal.fire({
-                title: Access "${projectName}",
+                title:  ` Access "${projectName}"`,
                 text: "You need to register to view the details of this project.",
                 icon: "info",
                 showCancelButton: true,

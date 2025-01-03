@@ -58,6 +58,10 @@ switch($action){
          case 'public_projects':
                 $proj->viewPublicProjects();
                
+                break; 
+                case 'dashboard_user':
+                $proj->userDashboard();
+               
                 break;
         
         default:

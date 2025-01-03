@@ -102,6 +102,15 @@ public function createProject() {
     }
 
 
+    public function userDashboard() {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit();
+        }
+        $user_id = $_SESSION['user_id'];
+        $user_projects = $this->project->getUserProjects($user_id);
+        include 'views/user_dashboard.php';
+    }
 
 
 }

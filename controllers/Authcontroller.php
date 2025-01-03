@@ -53,8 +53,24 @@ return;
 if($this->user->login($email, $password)){
       $_SESSION['user_id'] = $this->user->getId();
       $_SESSION['user_name'] = $this->user->getName();
-      header("Location: index.php?action=dashboard");
-      exit();
+      $role = $this->user->getUserRole($_SESSION['user_id']);
+      $_SESSION['user_role'] = $role;
+      switch ($role) {
+        case 'admin':
+            header("Location: index.php?action=dashboard");
+            break;
+        case 'team_member':
+            header("Location: index.php?action=user_dashboard");
+            break;
+        case 'project_manager':
+            header("Location: index.php?action=manager_dashboard");
+            break;
+        default:
+            header("Location: index.php?action=login");
+            break;
+    }
+    exit();
+
 
 
 }
@@ -70,7 +86,6 @@ else {
 
 
 }
-
 public function dashboard() {
     if (!isset($_SESSION['user_id'])) {
         header("Location: index.php?action=login");
