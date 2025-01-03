@@ -43,6 +43,22 @@
         </div>
     </footer>
 
-    
+    <script>
+        function showRegisterPrompt(projectName) {
+            Swal.fire({
+                title: Access "${projectName}",
+                text: "You need to register to view the details of this project.",
+                icon: "info",
+                showCancelButton: true,
+                confirmButtonText: "Register",
+                cancelButtonText: "Cancel",
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = 'index.php?action=register';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
