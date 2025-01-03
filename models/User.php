@@ -27,13 +27,18 @@ class User {
     public function setRole($role){
         $this->role = $role ?? 'team_member';
     }
-    public function getRole(){
-        return $this->role ;
-    }
     public function getId() {
         return $this->id;
     }
+public function getUserRole($id) {
+        $query = "SELECT role FROM " . $this->table_name . " WHERE id = :id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id", $id);
+        $stmt->execute();
 
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row['role'] ?? null;
+    }
     public function getName() {
         return $this->name;
     }
