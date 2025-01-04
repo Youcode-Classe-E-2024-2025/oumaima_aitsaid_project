@@ -66,7 +66,31 @@ public function __construct(){
 
   
     
+    public function updateTaskStatus() {
+        session_start(); 
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit();
+        }
     
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['task_id'], $_POST['new_status'], $_POST['project_id'])) {
+            $taskId = $_POST['task_id'];
+            $newStatus = $_POST['new_status'];
+            $projectId = $_POST['project_id']; 
+            $stmt = $this->db->prepare("UPDATE tasks SET status = ? WHERE id = ?");
+            $success = $stmt->execute([$newStatus, $taskId]);
+
+            if ($success) {
+                header("Location: index.php?action=user_dashboard&project_id=" . $projectId);
+                exit();
+            } else {
+                echo "Failed to update task status.";
+            }
+        } else {
+            echo "Invalid request. Missing task_id, new_status, or project_id.";
+        }
+        exit();
+    }
     
     
 
