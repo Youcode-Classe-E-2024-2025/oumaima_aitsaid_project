@@ -66,43 +66,31 @@ public function __construct(){
 
     public function updateTask() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            // Ensure the task ID is set
             $this->task->id = $_POST['id'] ?? '';
-            
-            // Collect and sanitize form input data
-            $this->task->title = $_POST['title'] ?? '';
+                        $this->task->title = $_POST['title'] ?? '';
             $this->task->description = $_POST['description'] ?? '';
             $this->task->status = $_POST['status'] ?? '';
             $this->task->priority = $_POST['priority'] ?? '';
             $this->task->fin_date = $_POST['fin_date'] ?? '';
             $this->task->category_id = $_POST['category_id'] ?? null;
             $this->task->assigned_to = $_POST['assigned_to'] ?? null;
-    
-            // Attempt to update the task
-            if ($this->task->updateTask()) {
-                // Get the current tags associated with this task
+                if ($this->task->updateTask()) {
                 $current_tags = $this->task->getTaskTags($this->task->id);
                 $new_tags = $_POST['tags'] ?? [];
-                
-                // Remove tags that are no longer associated with the task
-                foreach ($current_tags as $tag) {
+                                foreach ($current_tags as $tag) {
                     if (!in_array($tag['id'], $new_tags)) {
                         $this->task->removeTag($this->task->id, $tag['id']);
                     }
-                }
-                
-                // Add new tags if any are selected
+                }               
                 foreach ($new_tags as $new_tag_id) {
                     if (!in_array($new_tag_id, array_column($current_tags, 'id'))) {
                         $this->task->addTag($this->task->id, $new_tag_id);
                     }
                 }
                 
-                // Redirect to the project details page after successful update
                 header("Location: index.php?action=project_details&id=" . $_POST['project_id']);
                 exit();
             } else {
-                // Handle failed update, show error message and reload the task edit form
                 $error = "Failed to update task";
                 $task = $this->task->getTaskById($this->task->id);
                 $project = $this->project->getProjectById($task['project_id']);
@@ -110,22 +98,18 @@ public function __construct(){
                 include 'views/update_task.php';
             }
         } else {
-            // If the form hasn't been posted, fetch the task data to pre-fill the form
             $task_id = $_GET['id'] ?? '';
             if ($task_id) {
                 $task = $this->task->getTaskById($task_id);
                 if ($task) {
-                    // Fetch project details and categories for the form
                     $project = $this->project->getProjectById($task['project_id']);
                     $categories = $this->category->getAllCategories();
                     include 'views/update_task.php';
                 } else {
-                    // If the task is not found, redirect to the dashboard
                     header("Location: index.php?action=dashboard");
                     exit();
                 }
             } else {
-                // If no task ID is provided, redirect to the dashboard
                 header("Location: index.php?action=dashboard");
                 exit();
             }
