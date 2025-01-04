@@ -133,7 +133,16 @@
                                         <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">Low</span>
                                     <?php endif; ?>
                                 </div>
-                                
+                                <div class="flex space-x-2 mb-3">
+        <?php if (!empty($task['tags'])): ?>
+            <?php foreach ($task['tags'] as $tag): ?>
+                <span class="bg-gray-200 text-gray-700 py-1 px-3 rounded-full text-xs"><?php echo htmlspecialchars($tag['name']); ?></span>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <span class="text-gray-500 text-xs">No tags</span>
+        <?php endif; ?>
+    </div>
+
                                 <div class="flex items-center justify-between text-sm">
                                     <span class="text-gray-500"><?php echo htmlspecialchars($task['fin_date']); ?></span>
                                     <div class="flex space-x-2">
