@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Project</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
@@ -45,7 +48,16 @@
                     <option value="completed">completed</option>
                 </select>
             </div>
-    
+             <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
+                    Accessibility
+                </label>
+                <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="is_public" name="is_public">
+                    <option value="1">public</option>
+                    <option value="0">Privé</option>
+                </select>
+            </div>
+            
             <div class="flex items-center justify-between">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     Create Project
@@ -55,6 +67,9 @@
                 </a>
             </div>
         </form>
+      
+    
+       
     </div>
 </body>
 </html>

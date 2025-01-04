@@ -1,7 +1,4 @@
-
-
 <?php
-
 class ProjectController{
 private $db;
 private $user;
@@ -26,20 +23,30 @@ public function createProject() {
         $this->project->date_commence = $_POST['date_commence'] ?? '';
         $this->project->date_fin = $_POST['date_fin'] ?? '';
         $this->project->status = $_POST['status'] ?? '';
-        $this->project->is_public = isset($_POST['is_public']) ? 1 : 0;
+        $this->project->is_public = isset($_POST['is_public']) ? (int) $_POST['is_public'] : 0;
         $this->project->id_user = $_SESSION['user_id'] ?? null;
 
+        $team_members = $_POST['team_members'] ?? [];
+
         if ($this->project->createProject()) {
+            $project_id = $this->project->getLastInsertId();
+            
+            // Add team members to the project
+            foreach ($team_members as $member_id) {
+                $this->project->addProjectMember($project_id, $member_id);
+            }
+
             header("Location: index.php?action=dashboard");
             exit();
         } else {
             $error = "Failed to create project";
+            $allUsers = $this->user->getAllUsers();
             include 'views/create_project.php';
         }
     } else {
+        $allUsers = $this->user->getAllUsers();
         include 'views/create_project.php';
-    }
-}
+    }}
  public function updateProject() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->project->id = $_POST['id'] ?? '';
@@ -102,15 +109,10 @@ public function createProject() {
     }
 
 
-    public function userDashboard() {
-        if (!isset($_SESSION['user_id'])) {
-            header("Location: index.php?action=login");
-            exit();
-        }
-        $user_id = $_SESSION['user_id'];
-        $user_projects = $this->project->getUserProjects($user_id);
-        include 'views/user_dashboard.php';
-    }
+  
+  
+
+   
 
 
 }

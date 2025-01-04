@@ -11,7 +11,7 @@ class Tag {
     }
 
     public function createTag() {
-        $query = "INSERT INTO " . $this->table_name . " (name) VALUES (:name)";
+        $query = "INSERT INTO " . $this->table_name . "(name) VALUES (:name)";
 
         $stmt = $this->conn->prepare($query);
 

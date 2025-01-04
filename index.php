@@ -15,7 +15,7 @@ $proj =new ProjectController();
 $task =new TaskController();
 
 $action = $_GET['action'] ?? 'public_projects';
-
+try{
 switch($action){
 
     case 'register':
@@ -29,6 +29,10 @@ switch($action){
         case 'dashboard':
            
             $auth->dashboard();
+            break; 
+            case 'user_dashboard':
+           
+            $auth->userDashboard();
             break;
         case 'logout':
             session_destroy();
@@ -36,6 +40,7 @@ switch($action){
             exit();
             break;
             case 'create_project':
+               
         $proj->createProject();
         break;
           case 'update_project':
@@ -58,17 +63,27 @@ switch($action){
          case 'public_projects':
                 $proj->viewPublicProjects();
                
-                break; 
-                case 'dashboard_user':
-                $proj->userDashboard();
+                break; case 'public_projects':
+                $proj->viewPublicProjects();
                
                 break;
+        case 'update_task_status':
         
-        default:
-    $auth->login();
-
+            $task->updateTaskStatus() ;
         break;
+
+        default:
+        throw new Exception("Page non trouvée");
+        
+        
 }
+} catch (Exception $e) {
+error_log($e->getMessage());
+header("HTTP/1.0 404 Not Found");
+include 'views/404.php';
+exit();
+}
+
 
 
 

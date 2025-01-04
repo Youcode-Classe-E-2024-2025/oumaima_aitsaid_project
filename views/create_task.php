@@ -11,12 +11,16 @@
         <h1 class="text-3xl font-bold mb-6">Create New Task</h1>
         <form action="index.php?action=create_task" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
             <input type="hidden" name="project_id" value="<?php echo htmlspecialchars($project['id']); ?>">
+
+            <!-- Task Title -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
                     Task Title
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="title" type="text" name="title" required>
             </div>
+
+            <!-- Description -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
                     Description
@@ -24,27 +28,31 @@
                 <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" rows="3"></textarea>
             </div>
             
+            <!-- Status -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
                     Status
                 </label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="status" name="status">
-                    <option value="toDo">to Do</option>
+                    <option value="toDo">To Do</option>
                     <option value="inProgress">In Progress</option>
                     <option value="completed">Completed</option>
                 </select>
             </div>
             
+            <!-- Priority -->
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
-                    Prioritès
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="priority">
+                    Priority
                 </label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="priority" name="priority">
-                    <option value="low">low</option>
-                    <option value="medium">medium</option>
-                    <option value="high">high</option>
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
                 </select>
             </div>
+
+            <!-- Category -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="category_id">
                     Category
@@ -60,12 +68,11 @@
                     <?php endif; ?>
                 </select>
             </div>       
-            
-            
-            
+
+            <!-- Assigned User -->
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="user_id">
-                    assigned_to
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="assigned_to">
+                    Assigned To
                 </label>
                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="assigned_to" name="assigned_to">
                     <option value="">Select a user</option>
@@ -74,16 +81,22 @@
                             <option value="<?php echo htmlspecialchars($user['id']); ?>"><?php echo htmlspecialchars($user['name']); ?></option>
                         <?php endforeach; ?>
                     <?php else: ?>
-                        <option value="" disabled>No user available</option>
+                        <option value="" disabled>No users available</option>
                     <?php endif; ?>
                 </select>
             </div>      
+
+            <!-- Due Date -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="due_date">
                     Due Date
                 </label>
                 <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="due_date" type="date" name="fin_date" required>
             </div>
+
+            <!-- Tags Selection -->
+           
+            <!-- Submit and Cancel Buttons -->
             <div class="flex items-center justify-between">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     Create Task
@@ -96,4 +109,3 @@
     </div>
 </body>
 </html>
-

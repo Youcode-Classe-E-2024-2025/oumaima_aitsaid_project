@@ -19,7 +19,7 @@ public function __construct(){
 } 
  
  
- public function createTask() {
+     public function createTask() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->task->title = $_POST['title'] ?? '';
             $this->task->description = $_POST['description'] ?? '';
@@ -64,48 +64,11 @@ public function __construct(){
         }
     }
 
-    public function updateTask() {
-        if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $this->task->id = $_POST['id'] ?? '';
-            $this->task->title = $_POST['title'] ?? '';
-            $this->task->description = $_POST['description'] ?? '';
-            $this->task->status = $_POST['status'] ?? '';
-            $this->task->priority = $_POST['priority'] ?? '';
-            $this->task->fin_date = $_POST['fin_date'] ?? '';
-            $this->task->category_id = $_POST['category_id'] ?? null;
-            $this->task->assigned_to = $_POST['assigned_to'] ?? null;
-
-            if ($this->task->updateTask()) {
-                $current_tags = $this->task->getTaskTags($this->task->id);
-                $new_tags = $_POST['tags'] ?? [];
-                foreach ($current_tags as $tag) {
-                    if (!in_array($tag['id'], $new_tags)) {
-                        $this->task->removeTag($this->task->id, $tag['id']);
-                    }
-                }
-              
-                header("Location: index.php?action=project_details&id=" . $_POST['project_id']);
-                exit();
-            } else {
-                $error = "Failed to update task";
-                $task = $this->task->getTaskById($this->task->id);
-                $project = $this->project->getProjectById($task['project_id']);
-                $categories = $this->category->getAllCategories();
-                include 'views/update_task.php';
-            }
-        } else {
-            $task_id = $_GET['id'] ?? '';
-            $task = $this->task->getTaskById($task_id);
-            if ($task) {
-                $project = $this->project->getProjectById($task['project_id']);
-                $categories = $this->category->getAllCategories();
-                include 'views/update_task.php';
-            } else {
-                header("Location: index.php?action=dashboard");
-                exit();
-            }
-        }
-    }
+  
+    
+    
+    
+    
 
     public function deleteTask() {
         $task_id = $_GET['id'] ?? '';
@@ -118,6 +81,7 @@ public function __construct(){
             $error = "Failed to delete task";
             header("Location: index.php?action=project_details&id=" . $task['project_id'] . "&error=" . urlencode($error));
             exit();
-        }
-    }
+        
+
+}}
 }

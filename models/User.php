@@ -145,6 +145,17 @@ public function getUserRole($id) {
         }
         return false;
     }
+    public function getAssignedProjects($userId) {
+        $query = "SELECT p.* 
+                  FROM projects p
+                  INNER JOIN project_members pm ON p.id = pm.project_id
+                  WHERE pm.user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':user_id', $userId);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
 }
 
 
