@@ -119,8 +119,19 @@ public function createProject() {
         include 'views/user_dashboard.php';
     }
   
-
-   
+    public function updateTaskStatus() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $taskId = $_POST['task_id'] ?? null;
+            $newStatus = $_POST['new_status'] ?? null;
+            if ($taskId && $newStatus) {
+                $this->task->updateTaskStatus($taskId, $newStatus);
+                echo json_encode(['success' => true]);
+                exit;
+            }
+        }
+        echo json_encode(['success' => false]);
+        exit;
+    }
 
 
 }
