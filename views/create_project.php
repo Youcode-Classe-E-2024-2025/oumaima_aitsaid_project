@@ -57,7 +57,17 @@
                     <option value="0">Privé</option>
                 </select>
             </div>
-            
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="team_members">
+                    Team Members
+                </label>
+                <select class="select2-multiple w-full" name="team_members[]" multiple="multiple" id="team_members">
+                    <?php foreach ($allUsers as $user): ?>
+                        <option value="<?php echo $user['id']; ?>"><?php echo htmlspecialchars($user['name']); ?></option>
+                    <?php endforeach; ?>
+                </select>
+            </div>
+    
             <div class="flex items-center justify-between">
                 <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                     Create Project
@@ -68,7 +78,11 @@
             </div>
         </form>
       
-    
+    <script>
+        $(document).ready(function() {
+            $('.select2-multiple').select2();
+        });
+    </script>
        
     </div>
 </body>
