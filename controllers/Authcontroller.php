@@ -39,7 +39,7 @@ public function register(){
         include 'views/register.php';
     }
 }
-  public function login(){
+public function login(){
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 $email=$_POST['email'] ?? '';
 $password =$_POST['password'] ?? '';
@@ -98,27 +98,17 @@ public function dashboard() {
 
    
 public function userDashboard() {
-    // Vérifie si l'utilisateur est connecté
     if (!isset($_SESSION['user_id'])) {
         header("Location: index.php?action=login");
         exit();
     }
-
-    // Récupérer les informations utilisateur
     $userId = $_SESSION['user_id'];
     $userName = $_SESSION['user_name'];
-
-    // Récupérer les projets assignés à l'utilisateur
     $assignedProjects = $this->user->getAssignedProjects($userId);
-
-    // Récupérer les tâches des projets spécifiques si un projet est sélectionné
     $tasks = [];
     if (isset($_GET['project_id'])) {
         $projectId = $_GET['project_id'];
-        $project = $this->project->getProjectById($projectId); // Ensure you're getting the project by ID
-
-        // Fetch tasks assigned to the user for the specific project
-        $tasks = $this->task->getTasksByProjectAndUser($projectId, $userId);
+        $tasks = $this->task->getTasksByProject($projectId, $userId); 
     }
 
     include 'views/user_dashboard.php';
