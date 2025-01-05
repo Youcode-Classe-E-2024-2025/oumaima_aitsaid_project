@@ -12,8 +12,8 @@ Cette plateforme vise à simplifier la gestion et la collaboration des équipes 
 
 1. [Contexte du Projet](#contexte-du-projet)
 2. [Technologies Requises](#HTML-#tailwindCss-#php,)
-3. [Cas D'utulisation](#)
-4. [Diagramme de classe](#)
+3. [Cas D'utulisation](https://lucid.app/lucidchart/882b13dd-2b0d-4c8f-98ac-4cda3d84ce55/edit?beaconFlowId=1108898049380F08&invitationId=inv_e6941518-092d-481a-bf36-8babca8f5217&page=0_0#)
+4. [Diagramme de classe](https://app.diagrams.net/#Houmaimaaitsaid%2Ffut-oumaima%2Fmain%2FUntitled%20Diagram.drawio#%7B%22pageId%22%3A%22C5RBs43oDa-KdzZeNtuy%22%7D)
 
 ---
 ## Links

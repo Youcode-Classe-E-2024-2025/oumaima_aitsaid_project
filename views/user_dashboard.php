@@ -12,7 +12,6 @@
             <h1 class="text-3xl font-bold text-gray-800">Bienvenue, <?= htmlspecialchars($userName); ?> 🎉</h1>
             <p class="text-gray-600">Voici un aperçu des projets auxquels vous êtes assigné.</p>
         </header>
-
         <section class="mb-8">
             <h2 class="text-2xl font-semibold text-gray-800">Vos Projets Assignés</h2>
             <ul class="list-none mb-4">
@@ -26,13 +25,11 @@
                 <?php endforeach; ?>
             </ul>
         </section>
-
         <div class="mt-6">
             <a href="index.php?action=logout" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
                 Logout
             </a>
         </div>
-
         <?php if (isset($project) && !empty($tasks)): ?>
             <section class="mt-8">
                 <h2 class="text-2xl font-semibold text-center text-gray-800">Kanban pour le Projet: <?= htmlspecialchars($project['name']); ?></h2>
@@ -57,7 +54,6 @@
                             <?php endforeach; ?>
                         </div>
                     </div>
-
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold text-yellow-600 mb-4">En cours</h3>
                         <div class="space-y-4">
@@ -78,7 +74,6 @@
                             <?php endforeach; ?>
                         </div>
                     </div>
-
                     <div class="flex-1">
                         <h3 class="text-xl font-semibold text-green-600 mb-4">Terminé</h3>
                         <div class="space-y-4">
