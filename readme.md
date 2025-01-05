@@ -18,8 +18,8 @@ Cette plateforme vise à simplifier la gestion et la collaboration des équipes 
 ---
 ## Links
 
-- **GitHub Repository :** [View on GitHub](https://github.com/Youcode-Classe-E-2024-2025/oumaima_aitsaid_project.git)
-
+- **GitHub Repository :** [View on GitHub](https://github.com/Youcode-Classe-E-2024-2025/oumaima_aitsaid_project.git)-
+ **Baclog :** [View on Baclog](https://github.com/Youcode-Classe-E-2024-2025/oumaima_aitsaid_project.githttps://github.com/orgs/Youcode-Classe-E-2024-2025/projects/104/views/1)
 
 ## **Contexte du Projet**
 
