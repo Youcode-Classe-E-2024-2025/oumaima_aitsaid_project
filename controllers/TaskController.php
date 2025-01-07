@@ -9,6 +9,7 @@ private $project;
 private $task;
 private $category;
 private $tag;
+private $parsedown;
 
 public function __construct(){
     $database =new Database();
@@ -18,6 +19,7 @@ public function __construct(){
     $this->task = new Task($this->db);
     $this->category = new Category($this->db);
     $this->tag = new Tag($this->db);
+    $this->parsedown = new \Parsedown();
 } 
  
  
@@ -25,6 +27,7 @@ public function __construct(){
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->task->title = $_POST['title'] ?? '';
             $this->task->description = $_POST['description'] ?? '';
+            $this->task->description_html = $this->parsedown->text($this->task->description);
             $this->task->status = $_POST['status'] ?? 'toDo';
             $this->task->priority = $_POST['priority'] ?? 'medium';
             $this->task->fin_date = $_POST['fin_date'] ? $_POST['fin_date'] : null;
@@ -71,6 +74,7 @@ public function __construct(){
             $this->task->id = $_POST['id'] ?? '';
                         $this->task->title = $_POST['title'] ?? '';
             $this->task->description = $_POST['description'] ?? '';
+             $description_html = $this->parsedown->text($this->task->description);
             $this->task->status = $_POST['status'] ?? '';
             $this->task->priority = $_POST['priority'] ?? '';
             $this->task->fin_date = $_POST['fin_date'] ?? '';
