@@ -131,6 +131,14 @@ public function updateTask() {
     }
     return false;
 }
+
+public function updateDescription($id, $description_html) {
+    $query = "UPDATE " . $this->table_name . " SET description_html = :description_html WHERE id = :id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(':description_html', $description_html);
+    $stmt->bindParam(':id', $id);
+    return $stmt->execute();
+}
 //delete Status
     public function deleteTask() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
