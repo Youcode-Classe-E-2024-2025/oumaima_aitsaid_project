@@ -10,6 +10,7 @@ private $task;
 private $category;
 private $tag;
 private $parsedown;
+private $activity;
 
 public function __construct(){
     $database =new Database();
@@ -20,6 +21,7 @@ public function __construct(){
     $this->category = new Category($this->db);
     $this->tag = new Tag($this->db);
     $this->parsedown = new \Parsedown();
+    $this->activity = new Activity($this->db);
 } 
  
  
@@ -43,6 +45,11 @@ public function __construct(){
                         $this->task->addTag($task_id, $tag_id);
                     }
                 }
+                $this->activity->project_id = $this->task->project_id;
+                $this->activity->user_id = $_SESSION['user_id'] ?? null;
+                $this->activity->action = 'create_task';
+                $this->activity->description = "Created task: " . $this->task->title;
+                $this->activity->logActivity();
                 header("Location: index.php?action=project_details&id=" . $this->task->project_id);
                 exit();
             } else {
@@ -93,7 +100,11 @@ public function __construct(){
                         $this->task->addTag($this->task->id, $new_tag_id);
                     }
                 }
-                
+                $this->activity->project_id = $this->task->project_id;
+                $this->activity->user_id = $_SESSION['user_id'] ?? null;
+                $this->activity->action = 'update_task';
+                $this->activity->description = " task Update: " . $this->task->title;
+                $this->activity->logActivity();
                 header("Location: index.php?action=project_details&id=" . $_POST['project_id']);
                 exit();
             } else {
@@ -147,7 +158,17 @@ public function __construct(){
         }
         exit();
     }
-    
+    public function viewTimeline() {
+        $project_id = $_GET['project_id'] ?? '';
+        if ($project_id) {
+            $project = $this->project->getProjectById($project_id);
+            $activities = $this->activity->getActivitiesByProject($project_id);
+            include 'views/timeline.php';
+        } else {
+            header("Location: index.php?action=dashboard");
+            exit();
+        }
+    }
     
 
     public function deleteTask() {
@@ -155,6 +176,11 @@ public function __construct(){
         $this->task->id = $task_id;
         $task = $this->task->getTaskById($task_id);
         if ($this->task->deleteTask()) {
+            $this->activity->project_id = $task['project_id'];
+            $this->activity->user_id = $_SESSION['user_id'] ?? null;
+            $this->activity->action = 'delete_task';
+            $this->activity->description = "Deleted task: " . $task['title'];
+            $this->activity->logActivity();
             header("Location: index.php?action=project_details&id=" . $task['project_id']);
             exit();
         } else {
