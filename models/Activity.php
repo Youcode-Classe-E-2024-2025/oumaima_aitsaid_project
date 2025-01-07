@@ -38,5 +38,17 @@ class Activity {
         return false;
     }
 
-  
+    public function getActivitiesByProject($project_id) {
+        $query = "SELECT a.*, u.name as user_name 
+                  FROM " . $this->table_name . " a
+                  LEFT JOIN users u ON a.user_id = u.id
+                  WHERE a.project_id = :project_id 
+                  ORDER BY a.created_at DESC";
+
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":project_id", $project_id);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
