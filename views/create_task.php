@@ -23,9 +23,9 @@
             <!-- Description -->
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                    Description
+                    Description (Markdown supported)
                 </label>
-                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" rows="3"></textarea>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" rows="6"></textarea>
             </div>
             
             <!-- Status -->
@@ -121,5 +121,9 @@
             </div>
         </form>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
+    <script>
+        const easyMDE = new EasyMDE({element: document.getElementById('description')});
+    </script>
 </body>
 </html>

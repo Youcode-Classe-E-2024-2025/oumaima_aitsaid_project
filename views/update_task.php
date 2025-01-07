@@ -22,11 +22,11 @@
 
             <!-- Description -->
             <div class="mb-4">
-                <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
-                    Description
-                </label>
-                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" rows="3"><?php echo htmlspecialchars($task['description']); ?></textarea>
-            </div>
+            <label class="block text-gray-700 text-sm font-bold mb-2" for="description">
+                Description (Markdown supported)
+            </label>
+            <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="description" name="description" rows="6"><?php echo htmlspecialchars($task['description']); ?></textarea>
+        </div>
             
             <!-- Status -->
             <div class="mb-4">

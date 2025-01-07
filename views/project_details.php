@@ -34,7 +34,13 @@
                         <?php if ($task['status'] === 'toDo'): ?>
                             <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                                 <h3 class="font-medium text-gray-800 mb-2"><?php echo htmlspecialchars($task['title']); ?></h3>
-                                <p class="text-sm text-gray-600 mb-3"><?php echo htmlspecialchars($task['description']); ?></p>
+                                <div class="mb-6">
+            <p><strong>Description:</strong></p>
+            <div class="prose">
+                <?php echo $task['description_html']; ?>
+            </div>
+        </div>
+
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="bg-blue-200 text-blue-600 py-1 px-3 rounded-full text-xs">Todo</span>
                                     <?php if ($task['priority'] === 'high'): ?>

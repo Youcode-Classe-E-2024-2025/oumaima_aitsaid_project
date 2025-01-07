@@ -24,7 +24,7 @@ class Task {
         $query = "INSERT INTO " . $this->table_name . " 
                   (title, description, status, priority, fin_date, category_id, project_id, assigned_to, created_by) 
                   VALUES 
-                  (:title, :description, :status, :priority, :fin_date, :category_id, :project_id, :assigned_to, :created_by)";
+                  (:title, :description,:status, :priority, :fin_date, :category_id, :project_id, :assigned_to, :created_by)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -40,7 +40,7 @@ class Task {
 
         $stmt->bindParam(":title", $this->title);
         $stmt->bindParam(":description", $this->description);
-        $stmt->bindParam(":status", $this->status);
+        $stmt->bindParam(":description_html", $this->description_html);
         $stmt->bindParam(":priority", $this->priority);
         if (empty($this->fin_date)) {
             $stmt->bindValue(":fin_date", null, PDO::PARAM_NULL);
@@ -93,7 +93,9 @@ class Task {
         }
         return false;
     }
+  
 //UpdateTask
+
 public function updateTask() {
     $query = "UPDATE " . $this->table_name . " 
               SET title = :title, description = :description, status = :status, 
@@ -129,7 +131,6 @@ public function updateTask() {
     }
     return false;
 }
-
 //delete Status
     public function deleteTask() {
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
