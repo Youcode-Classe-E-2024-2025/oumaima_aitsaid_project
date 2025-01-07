@@ -16,6 +16,7 @@ public function __construct(){
     $this->task = new Task($this->db);
     $this->category = new Category($this->db);
     $this->tag = new Tag($this->db);
+    
 }
 
 public function register(){

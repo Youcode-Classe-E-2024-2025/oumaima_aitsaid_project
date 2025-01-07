@@ -71,6 +71,7 @@ switch($action){
         
             $task->updateTaskStatus() ;
         break;
+       
 
         default:
         throw new Exception("Page non trouvée");
