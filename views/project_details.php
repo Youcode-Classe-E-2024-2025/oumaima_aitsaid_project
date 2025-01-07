@@ -8,6 +8,13 @@
 </head>
 <body class="bg-gray-100">
     <div class="container mx-auto px-4 py-8">
+  
+    <div class="mt-6">
+        <a href="index.php?action=view_timeline&project_id=<?php echo $project['id']; ?>" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+            View Project Timeline
+        </a>
+    </div>
+
         <h1 class="text-3xl font-bold mb-6">Project: <?php echo htmlspecialchars($project['name']); ?></h1>
         <div class="mb-6">
             <p><strong>Description:</strong> <?php echo htmlspecialchars($project['description']); ?></p>
