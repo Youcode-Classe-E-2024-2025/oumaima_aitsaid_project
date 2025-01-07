@@ -9,6 +9,7 @@ require_once 'models/Project.php';
 require_once 'models/Task.php';
 require_once 'models/Category.php';
 require_once 'models/Tag.php';
+require_once 'models/Activity.php';
 
 $auth = new AuthController();
 $proj =new ProjectController();
@@ -71,7 +72,9 @@ switch($action){
         
             $task->updateTaskStatus() ;
         break;
-       
+        case 'view_timeline':
+            $task->viewTimeline();
+            break;
 
         default:
         throw new Exception("Page non trouvée");
