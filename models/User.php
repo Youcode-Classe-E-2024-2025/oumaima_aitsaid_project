@@ -23,28 +23,35 @@ class User {
     public function setPassword($password){
         $this->password = $password;
     }
-
-    public function setRole($role){
-        $this->role = $role ?? 'team_member';
-    }
     public function getId() {
         return $this->id;
     }
-public function getUserRole($id) {
-        $query = "SELECT role FROM " . $this->table_name . " WHERE id = :id";
+    public function getUserRoles() {
+        $query = "SELECT r.id, r.name FROM roles r
+                  INNER JOIN user_roles ur ON r.id = ur.role_id
+                  WHERE ur.user_id = :user_id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $id);
+        $stmt->bindParam(":user_id", $this->id);
         $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        return $row['role'] ?? null;
+    public function hasRole($roleName) {
+        $query = "SELECT COUNT(*) FROM roles r
+                  INNER JOIN user_roles ur ON r.id = ur.role_id
+                  WHERE ur.user_id = :user_id AND r.name = :role_name";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $this->id);
+        $stmt->bindParam(":role_name", $roleName);
+        $stmt->execute();
+        return $stmt->fetchColumn() > 0;
     }
     public function getName() {
         return $this->name;
     }
 
     public function create(){
-        $query = "INSERT INTO " . $this->table_name . " (name, email, password, role) VALUES (:name, :email, :password, :role)";
+        $query = "INSERT INTO " . $this->table_name . " (name, email, password) VALUES (:name, :email, :password)";
 
         $stmt = $this->conn->prepare($query);
 
@@ -52,7 +59,6 @@ public function getUserRole($id) {
         $stmt->bindParam(":name", $this->name);
         $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":password", $hashed_password);
-        $stmt->bindParam(":role", $this->role);
         if($stmt->execute()){
             return true;
         }
@@ -105,46 +111,69 @@ public function getUserRole($id) {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+//new
+public function getAllUsers() {
+    $query = "SELECT u.*, GROUP_CONCAT(r.name) as roles, GROUP_CONCAT(r.id) as role_ids 
+              FROM " . $this->table_name . " u 
+              LEFT JOIN user_roles ur ON u.id = ur.user_id 
+              LEFT JOIN roles r ON ur.role_id = r.id 
+              GROUP BY u.id";
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
-    public function getAllUsers() {
-        $query = "SELECT * FROM " . $this->table_name;
+public function getTotalUsers() {
+    $query = "SELECT COUNT(*) as total FROM " . $this->table_name;
+    $stmt = $this->conn->prepare($query);
+    $stmt->execute();
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
+    return $row['total'];
+}
+public function createUser($name, $email, $password) {
+    $query = "INSERT INTO " . $this->table_name . " (name, email, password) VALUES (:name, :email, :password)";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":name", $name);
+    $stmt->bindParam(":email", $email);
+    $stmt->bindParam(":password", $password);
+    if($stmt->execute()) {
+        return $this->conn->lastInsertId();
+    }
+    return false;
+}
+
+public function assignRole($userId, $roleId) {
+    $query = "INSERT INTO user_roles (user_id, role_id) VALUES (:user_id, :role_id)";
+    $stmt = $this->conn->prepare($query);
+    $stmt->bindParam(":user_id", $userId);
+    $stmt->bindParam(":role_id", $roleId);
+    return $stmt->execute();
+}
+public function deleteUser($userId) {
+    try {
+        // Delete related records first
+        $query = "DELETE FROM user_roles WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $userId);
         $stmt->execute();
 
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    public function updateUser() {
-        $query = "UPDATE " . $this->table_name . " SET name = :name, email = :email, role = :role WHERE id = :id";
-
-        $stmt = $this->conn->prepare($query);
-
-        $this->name = htmlspecialchars(strip_tags($this->name));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->role = htmlspecialchars(strip_tags($this->role));
-
-        $stmt->bindParam(":name", $this->name);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":role", $this->role);
-        $stmt->bindParam(":id", $this->id);
-
-        if ($stmt->execute()) {
-            return true;
-        }
-        return false;
-    }
-
-    public function deleteUser() {
+        // Now delete the user
         $query = "DELETE FROM " . $this->table_name . " WHERE id = :id";
-
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id", $this->id);
-
+        $stmt->bindParam(":id", $userId);
+        
         if ($stmt->execute()) {
             return true;
         }
-        return false;
+
+    } catch (Exception $e) {
+        // Log error or output for debugging
+        echo "Error: " . $e->getMessage();
     }
+
+    return false;
+}
+
     public function getAssignedProjects($userId) {
         $query = "SELECT p.* 
                   FROM projects p
@@ -155,6 +184,22 @@ public function getUserRole($id) {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function updateRole($userId, $roleId) {
+        // First, delete the existing roles for the user
+        $query = "DELETE FROM user_roles WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $userId);
+        $stmt->execute();
+    
+        // Now, assign the new role
+        $query = "INSERT INTO user_roles (user_id, role_id) VALUES (:user_id, :role_id)";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $userId);
+        $stmt->bindParam(":role_id", $roleId);
+    
+        return $stmt->execute();
+    }
+    
     
 }
 

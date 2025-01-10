@@ -44,7 +44,7 @@
                                 <div class="mb-6">
             <p><strong>Description:</strong></p>
             <div class="prose">
-                <?php echo $task['description_html']; ?>
+            <?php echo $task['description_html']; ?>
             </div>
         </div>
 
@@ -91,7 +91,7 @@
                         <?php if ($task['status'] === 'inProgress'): ?>
                             <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                                 <h3 class="font-medium text-gray-800 mb-2"><?php echo htmlspecialchars($task['title']); ?></h3>
-                                <p class="text-sm text-gray-600 mb-3"><?php echo htmlspecialchars($task['description']); ?></p>
+                                <p class="text-sm text-gray-600 mb-3"><?php echo htmlspecialchars($task['description_html']); ?></p>
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="bg-yellow-200 text-yellow-600 py-1 px-3 rounded-full text-xs">In Progress</span>
                                     <?php if ($task['priority'] === 'high'): ?>
@@ -135,7 +135,7 @@
                         <?php if ($task['status'] === 'completed'): ?>
                             <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
                                 <h3 class="font-medium text-gray-800 mb-2"><?php echo htmlspecialchars($task['title']); ?></h3>
-                                <p class="text-sm text-gray-600 mb-3"><?php echo htmlspecialchars($task['description']); ?></p>
+                                <p class="text-sm text-gray-600 mb-3"><?php echo htmlspecialchars($task['description_html']); ?></p>
                                 <div class="flex items-center justify-between mb-2">
                                     <span class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">Completed</span>
                                     <?php if ($task['priority'] === 'high'): ?>

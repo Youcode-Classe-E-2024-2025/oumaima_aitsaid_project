@@ -37,6 +37,7 @@ CREATE TABLE tasks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(255) NOT NULL,
     description TEXT,
+    description_html text ,
     status VARCHAR(20) NOT NULL DEFAULT 'toDo' CHECK (status IN ('toDo', 'inProgress', 'completed')),
     priority VARCHAR(20) NOT NULL DEFAULT 'medium' CHECK (priority IN ('low', 'medium', 'high')),
     fin_date DATE,
@@ -72,3 +73,37 @@ CREATE TABLE project_members (
     role VARCHAR(20) NOT NULL DEFAULT 'member' CHECK (role IN ('manager', 'member')),
     PRIMARY KEY (project_id, user_id)
 );
+CREATE TABLE activities  (id INT PRIMARY KEY AUTO_INCREMENT ,
+    project_id INT,
+    user_id INT,
+    action VARCHAR(50),
+   description TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	 FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE,
+	 FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+	 )
+
+     CREATE TABLE permissions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE role_permissions (
+    role_id INT,
+    permission_id INT,
+    PRIMARY KEY (role_id, permission_id),
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE,
+    FOREIGN KEY (permission_id) REFERENCES permissions(id) ON DELETE CASCADE
+);
+
+
+CREATE TABLE user_roles (
+    user_id INT,
+    role_id INT,
+    PRIMARY KEY (user_id, role_id),
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE
+);
+
+    

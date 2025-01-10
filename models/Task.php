@@ -231,13 +231,12 @@ return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
         return false;
     }
-    //update Task
     public function updateTaskStatus($taskId, $newStatus) {
-        $query = "UPDATE tasks SET status = :status WHERE id = :task_id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":status", $newStatus);
-        $stmt->bindParam(":task_id", $taskId);
-        return $stmt->execute();
+        $sql = "UPDATE tasks SET status = :status WHERE id = :task_id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':status', $newStatus, PDO::PARAM_STR);
+        $stmt->bindParam(':task_id', $taskId, PDO::PARAM_INT);
+        $stmt->execute();
     }
   
 

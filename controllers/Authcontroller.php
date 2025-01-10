@@ -24,11 +24,10 @@ public function register(){
         $this->user->setName($_POST['username'] ?? '');
         $this->user->setEmail($_POST['email'] ?? '');
         $this->user->setPassword($_POST['password'] ?? '');
-        $this->user->setRole('team_member');
         
         $errors = $this->user->validate();
         if(empty($errors)){
-            if($this->user->create()){
+          
                 header("Location: index.php?action=login&register=1");
                 exit();
             } else {
@@ -36,9 +35,7 @@ public function register(){
             }
         }
         include 'views/register.php';
-    } else {
-        include 'views/register.php';
-    }
+    
 }
 public function login(){
 if($_SERVER["REQUEST_METHOD"] == "POST"){
@@ -54,24 +51,16 @@ return;
 if($this->user->login($email, $password)){
       $_SESSION['user_id'] = $this->user->getId();
       $_SESSION['user_name'] = $this->user->getName();
-      $role = $this->user->getUserRole($_SESSION['user_id']);
-      $_SESSION['user_role'] = $role;
-      switch ($role) {
-        case 'admin':
-            header("Location: index.php?action=dashboard");
-            break;
-        case 'team_member':
-            header("Location: index.php?action=user_dashboard");
-            break;
-        case 'project_manager':
-            header("Location: index.php?action=manager_dashboard");
-            break;
-        default:
-            header("Location: index.php?action=login");
-            break;
-    }
-    exit();
-
+      $roles = $this->user->getUserRoles();
+      $_SESSION['user_roles'] = array_column($roles, 'name');
+      if (in_array('Admin', $_SESSION['user_roles'])) {
+        header("Location: index.php?action=dashboard");
+    } elseif (in_array('project_manager', $_SESSION['user_roles'])) {
+        header("Location: index.php?action=Admin_dashboard");
+    } else {
+        header("Location: index.php?action=user_dashboard");
+    }    exit();
+    
 
 
 }
@@ -87,6 +76,26 @@ else {
 
 
 }
+
+    public function personalDashboard($userId) {
+        $tasks = $this->task->getTasksByUser($userId);
+
+        // Calculer les statistiques
+        $totalTasks = count($tasks);
+        $completedTasks = count(array_filter($tasks, function($task) {
+            return $task['status'] === 'completed';
+        }));
+        $inProgressTasks = count(array_filter($tasks, function($task) {
+            return $task['status'] === 'inProgress';
+        }));
+        $todoTasks = count(array_filter($tasks, function($task) {
+            return $task['status'] === 'toDo';
+        }));
+
+        // Charger la vue
+        include 'views/personalDashboard.php';
+    }
+
 public function dashboard() {
     if (!isset($_SESSION['user_id'])) {
         header("Location: index.php?action=login");
@@ -98,22 +107,43 @@ public function dashboard() {
 }
 
    
+// AuthController.php
 public function userDashboard() {
     if (!isset($_SESSION['user_id'])) {
         header("Location: index.php?action=login");
         exit();
     }
+
     $userId = $_SESSION['user_id'];
     $userName = $_SESSION['user_name'];
+
+    // Fetch assigned projects for the user
     $assignedProjects = $this->user->getAssignedProjects($userId);
     $tasks = [];
-    if (isset($_GET['project_id'])) {
-        $projectId = $_GET['project_id'];
-        $tasks = $this->task->getTasksByProject($projectId, $userId); 
+    $project = null;
+
+    // Handling task status updates
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['task_id']) && isset($_POST['new_status'])) {
+        $taskId = $_POST['task_id'];
+        $newStatus = $_POST['new_status'];
+
+        // Update task status in the database
+        $this->task->updateTaskStatus($taskId, $newStatus);
     }
 
+    // If a project ID is passed, show tasks for that specific project
+    if (isset($_GET['project_id'])) {
+        $projectId = $_GET['project_id'];
+        $project = $this->project->getProjectById($projectId);
+
+        // Fetch tasks related to that project and user
+        $tasks = $this->task->getTasksByProjectAndUser($projectId, $userId);
+    }
+
+    // Include the dashboard view
     include 'views/user_dashboard.php';
 }
+
 
 
     public function createCategory() {

@@ -1,4 +1,8 @@
 <?php
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class ProjectController{
 private $db;
 private $user;
@@ -16,6 +20,35 @@ public function __construct(){
     $this->category = new Category($this->db);
     $this->tag = new Tag($this->db);
 }
+public function exportProjectProgress($projectId) {
+    $project = $this->project->getProjectById($projectId);
+    $tasks = $this->task->getTasksByProject($projectId);
+    $spreadsheet = new Spreadsheet();
+    $sheet = $spreadsheet->getActiveSheet();
+    $sheet->setCellValue('A1', 'Task Title');
+    $sheet->setCellValue('B1', 'Status');
+    $sheet->setCellValue('C1', 'Priority');
+    $sheet->setCellValue('D1', 'Due Date');
+    $row = 2;
+    foreach ($tasks as $task) {
+        $sheet->setCellValue('A' . $row, $task['title']);
+        $sheet->setCellValue('B' . $row, $task['status']);
+        $sheet->setCellValue('C' . $row, $task['priority']);
+        $sheet->setCellValue('D' . $row, $task['fin_date']);
+        $row++;
+    }
+    $writer = new Xlsx($spreadsheet);
+    $fileName = 'project_progress_' . $projectId . '.xlsx';
+    $writer->save($fileName);
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment; filename="'. $fileName .'"');
+    header('Cache-Control: max-age=0');
+    readfile($fileName);
+    unlink($fileName); 
+    exit;
+}
+
+
 public function createProject() {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $this->project->name = $_POST['name'] ?? '';

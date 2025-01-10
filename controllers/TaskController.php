@@ -79,9 +79,9 @@ public function __construct(){
     public function updateTask() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $this->task->id = $_POST['id'] ?? '';
-                        $this->task->title = $_POST['title'] ?? '';
+            $this->task->title = $_POST['title'] ?? '';
             $this->task->description = $_POST['description'] ?? '';
-             $description_html = $this->parsedown->text($this->task->description);
+            $description_html = $this->parsedown->text($this->task->description);
             $this->task->status = $_POST['status'] ?? '';
             $this->task->priority = $_POST['priority'] ?? '';
             $this->task->fin_date = $_POST['fin_date'] ?? '';
@@ -102,7 +102,7 @@ public function __construct(){
                 }
                 $this->activity->project_id = $this->task->project_id;
                 $this->activity->user_id = $_SESSION['user_id'] ?? null;
-                $this->activity->action = 'update_task';
+                $this->activity->action = 'update_task';   
                 $this->activity->description = " task Update: " . $this->task->title;
                 $this->activity->logActivity();
                 header("Location: index.php?action=project_details&id=" . $_POST['project_id']);
